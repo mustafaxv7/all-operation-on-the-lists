@@ -35,16 +35,19 @@ int main()
     }  
     printf("}\n\n");
   // the programme
+  
   printf("1.press one to add a node to the beginnig of the list\n\n");
   printf("2.press two to add a node to the end of the list\n\n");
   printf("3.press three to add a node to the center of the list\n\n");
   printf("4.press four to delete the first node form the list \n\n");
   printf("5.press five to delete the last node form the list \n\n");
   printf("6.press six to delete  a node with position in center form the list \n\n");
-  int option;
-  printf("option >: ");
-  scanf("%d",&option);
-  
+  printf("7.press seven to exit the program\n\n");
+  int option , run = 1;
+   while((option != 7 )&& (run == 1 )){
+    printf("\noption >: ");
+    scanf("%d",&option);
+ 
   switch(option){
     
     case 1:
@@ -60,7 +63,7 @@ int main()
          printf(" %d, ",ptr->data);
           ptr = ptr->link;
         }  
-        printf("}");
+        printf("}\n");
         break;
     
      case 2:
@@ -69,13 +72,14 @@ int main()
          printf(">: ");
          scanf("%d",&x);
          add_at_end(head,x);
+         ptr = head;
          printf("\nthe result : \n\n");
          printf("{ ");
          while(ptr != NULL){
          printf(" %d, ",ptr->data);
           ptr = ptr->link;
         }  
-        printf("}");
+        printf("}\n");
         break;
       
       case 3:
@@ -83,20 +87,18 @@ int main()
           printf("Enter the value of the node: \n");
           printf(">: ");
           scanf("%d",&x);
-          
           printf("Enter the position to add the value: \n");
           printf(">: ");
           scanf("%d",&posb);
-          
           add_node_center(head,x,posb);
-          
+          ptr = head;
           printf("\nthe result : \n\n");
            printf("{ ");
           while(ptr != NULL){
            printf(" %d, ",ptr->data);
            ptr = ptr->link;
           }  
-          printf("}");
+          printf("}\n");
           break;
           
       case 4:
@@ -108,7 +110,7 @@ int main()
          printf(" %d, ",ptr->data);
           ptr = ptr->link;
         }  
-        printf("}");
+        printf("}\n");
         break;
         
       case 5:
@@ -120,7 +122,7 @@ int main()
          printf(" %d, ",ptr->data);
           ptr = ptr->link;
         }  
-        printf("}");
+        printf("}\n");
         break;
       case 6:
          int post;
@@ -135,12 +137,16 @@ int main()
          printf(" %d, ",ptr->data);
           ptr = ptr->link;
         }  
-        printf("}");
+        printf("}\n");
         break;
+        case 7:
+            run = 0;
+            exit(EXIT_SUCCESS);
+            break;
         default:
            printf("invalid option !!");
      } 
-     
+  }  
   return 0;
 }
 // function to add node at the beginning of the list
@@ -234,14 +240,22 @@ struct node* delete_node_with_position(struct node *head,int posb){
   
   if(head == NULL){
      printf("the list is already empty");
+     return head;
   }
-  
+  else if(head->data == posb){
+      ptr1 = head;
+      head = head->link;
+      free(ptr1);
+      return head;
+  }
   else if(head->link == NULL && head->data == posb){
      head = NULL;
+     return head;
   }
   
   else if(head->link == NULL && head->data != posb){
      printf("this value\' %d \'dosn't inside the list\n",posb);
+     return head;
   }
   
   else{
@@ -252,14 +266,15 @@ struct node* delete_node_with_position(struct node *head,int posb){
    
    if(ptr1 == NULL){
      printf("this %d value doesn't inside this list \n",posb);
+     return head;
    }
    
    else{ 
      ptr2->link = ptr1->link;
      free(ptr1);
      ptr1 = NULL;
-    
+     return head;
     }
   }
-  return head;
+  
 }
